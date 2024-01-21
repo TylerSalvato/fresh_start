@@ -1,0 +1,116 @@
+    def create
+      @auction = Auction.new(auction_params)
+      if @auction.save
+        render json: @auction, status: :created
+      else
+        render json: @auction.errors, status: :unprocessable_entity
+      end
+    end
+
+
+class AuctionsController < ApplicationController
+    before_action :set_auction, only: [:show, :update, :destroy]
+  
+    def index
+      @auctions = Auction.all
+      render json: @auctions
+    end
+  
+    def show
+      render json: @auction
+    end
+
+    def create
+      @auction = Auction.new(auction_params)
+      if @auction.save
+        render json: @auction, status: :created
+      else
+        puts @auction.errors.full_messages
+        render json: { error: @auction.errors.full_messages }, status: :unprocessable_entity
+      end
+    rescue StandardError => e
+      render json: { error: e.message }, status: :internal_server_error
+    end
+  
+    def update
+      if @auction.update(auction_params)
+        render json: @auction
+      else
+        render json: @auction.errors, status: :unprocessable_entity
+      end
+    end
+  
+    def destroy
+      @auction.destroy
+      head :no_content
+    end
+  
+    private
+  
+    def set_auction
+      @auction = Auction.find(params[:id])
+    end
+  
+    def auction_params
+      params.require(:auction).permit(:title, :goal, :startdate, :enddate, :starttime, :endtime, :description )
+    end
+  end
+  
+
+class ItemsController < ApplicationController
+    before_action :set_item, only: [:show, :update, :destroy]
+  
+    def index
+      @items = Item.all
+      render json: @items
+    end
+  
+    def show
+      render json: @item
+    end
+  
+    def create
+      @item = Item.new(item_params.merge(auction_id: @auction.id))
+      if params[:auction_id].present?
+        @auction = Auction.find(params[:auction_id])
+        @item.auction = @auction
+      end
+
+
+      if @item.save
+        render json: @item, status: :created
+      else
+        render json: @item.errors, status: :unprocessable_entity
+      end
+    end
+  
+    def update
+      if @item.update(item_params)
+        render json: @item
+      else
+        render json: @item.errors, status: :unprocessable_entity
+      end
+    end
+  
+    def destroy
+      @item.destroy
+      head :no_content
+    end
+  
+    private
+  
+    def set_item
+      @item = Item.find(params[:id])
+      @item = Item.new(item_params.merge(auction_id: @auction.id))
+      @auction = Auction.find(params[:auction_id])
+      @item = Item.new(item_params.merge(auction_id: @auction.id))
+      auction_id = @auction&.id
+@item = Item.new(item_params.merge(auction_id: auction_id))
+
+    end
+  
+    def item_params
+      params.require(:item).permit(:name, :description, :price, :bidstep, :category, :image, :auction )
+    end
+  end
+  
