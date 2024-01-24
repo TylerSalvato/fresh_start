@@ -36,12 +36,16 @@ class AuctionsController < ApplicationController
   private
 
   def set_auction
-    @auction = Auction.find_by(id: params[:auction_id])
-    render json: { error: 'Auction not found' }, status: :not_found unless @auction
+    @auction = Auction.find_by(id: params[:id])
+    if @auction.nil?
+      # Handle case where auction is not found
+      render json: { error: 'Auction not found' }, status: :not_found
+    end
   end
+  
   
 
   def auction_params
-    params.require(:auction).permit(:title, :goal, :startdate, :enddate, :starttime, :endtime, :description)
+    params.require(:auction).permit(:title, :goal, :startdate, :enddate, :starttime, :endtime, :description, :image, :auction_id )
   end
 end

@@ -9,6 +9,8 @@ class CreateAuctions < ActiveRecord::Migration[7.1]
       t.time :starttime
       t.time :endtime
       t.text :description
+      t.string :image
+      t.references :auction, null: false, foreign_key: true
 
       t.timestamps
     end
