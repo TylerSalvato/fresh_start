@@ -38,7 +38,7 @@ class AuctionsController < ApplicationController
   def set_auction
     @auction = Auction.find_by(id: params[:id])
     if @auction.nil?
-      # Handle case where auction is not found
+      
       render json: { error: 'Auction not found' }, status: :not_found
     end
   end

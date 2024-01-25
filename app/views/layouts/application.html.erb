@@ -1,0 +1,25 @@
+<!-- app/views/layouts/application.html.erb -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- ... your head content ... -->
+</head>
+<body>
+
+  <!-- Flash messages -->
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+
+  <!-- Your application content -->
+  <%= yield %>
+
+  <!-- Sign In and Sign Out links -->
+  <% if user_signed_in? %>
+    <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
+  <% else %>
+    <%= link_to 'Sign In', new_user_session_path %>
+  <% end %>
+
+</body>
+</html>

@@ -7,6 +7,10 @@ gem "rails", "~> 7.1.3"
 
 gem 'rack-cors', require: 'rack/cors'
 
+gem 'devise'
+
+gem 'sendgrid-ruby'
+
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 
