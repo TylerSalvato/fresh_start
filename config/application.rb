@@ -24,8 +24,16 @@ module FreshStart
         allow do
           origins 'http://localhost:3001' 
           resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
+          resource '/auth/*', headers: :any, methods: [:post], credentials: true
         end
       end
+
+      config.session_store :cookie_store, key: 'fresh_start'
+    
+
+    config.middleware.use ActionDispatch::Session::CookieStore
+  
+
 
     
     # Initialize configuration defaults for originally generated Rails version.
