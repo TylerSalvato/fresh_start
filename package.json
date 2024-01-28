@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "yarn": "^1.22.21"
+  },
+  "resolutions": {
+    "existing_package": "existing_version",
+    "rails_admin/@fortawesome/fontawesome-free": "^5.15.0"
+  },
+  "dependencies": {
+    "rails_admin": "3.1.2"
+  }
+}
