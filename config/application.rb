@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails"
+require "rails/all"
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -14,24 +15,36 @@ require "action_view/railtie"
 require "action_cable/engine"
 # require "rails/test_unit/railtie"
 
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module FreshStart
-    class Application < Rails::Application
-      config.middleware.insert_before 0, Rack::Cors do
-        allow do
-          origins 'http://localhost:3001' 
-          resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
-          resource '/auth/*', headers: :any, methods: [:post], credentials: true
-        end
-      end
-
-      config.session_store :cookie_store, key: 'fresh_start'
-    
-
+  class Application < Rails::Application
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Flash
+    config.middleware.use Rack::MethodOverride
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    config.api_only = false
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'http://localhost:3001'
+        resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      end
+        
+      allow do
+        # Additional resource block for '/auth/*'
+        origins 'http://localhost:3001'
+        resource '/auth/*', headers: :any, methods: [:post], credentials: true
+      end
+    end
+
+    config.ignore_pattern = %r{/favicon.ico}
+    config.session_store :cookie_store, key: 'fresh_start'
+
   
 
 
@@ -55,7 +68,7 @@ module FreshStart
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
-    config.api_only = true
+
     
     config.generators do |g|
       g.template_engine :erb
@@ -68,5 +81,7 @@ module FreshStart
       # Add Devise generator
       g.devise :install
     end
+
+
   end
 end

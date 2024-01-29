@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, controllers: {
     sessions: 'api/sessions'
   }
 
   devise_scope :user do
-    post 'auth/sign_in', to: 'sessions#create'
+    post 'auth/sign_in', to: 'api/sessions#create'
   end
 
   resources :items, only: [:index, :show, :create, :update, :destroy]

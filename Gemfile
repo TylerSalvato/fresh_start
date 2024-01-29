@@ -7,9 +7,16 @@ gem "rails", "~> 7.1.3"
 
 gem 'rack-cors', require: 'rack/cors'
 
-gem 'devise'
+gem 'devise', '~> 4.9.3'
 
 gem 'sendgrid-ruby'
+
+gem 'rails_admin'
+
+gem 'webpacker'
+
+gem 'devise-jwt'
+
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -51,3 +58,4 @@ group :development do
   # gem "spring"
 end
 
+gem "sassc-rails"

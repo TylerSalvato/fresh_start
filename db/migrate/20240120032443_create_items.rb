@@ -8,6 +8,7 @@ class CreateItems < ActiveRecord::Migration[7.1]
       t.text :category
       t.string :image
       t.references :auction, null: false, foreign_key: true
+      t.references :cart, foreign_key: true
 
       t.timestamps
     end

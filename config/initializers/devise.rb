@@ -9,13 +9,15 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  # config.use_authentication_service = true
+  # config.use_password_service = true
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '2d39b8dc734f70654ace8fe9a48780eff8b94b650c99c275ad70861d4a3299485f57694d6d95218857d33d89d36570b1b1d95c880c67cf787169fe757704d0ef'
-
+  config.authentication_keys = [:email]
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -24,7 +26,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = 'Tyler.HarrisSalvato@sdgku.edu'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -79,7 +81,8 @@ Devise.setup do |config|
   # enable this with :database unless you are using a custom strategy.
   # The supported strategies are:
   # :database      = Support basic authentication with authentication key + password
-  # config.http_authenticatable = false
+  config.http_authenticatable = [:database]
+
 
   # If 401 status code should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
@@ -310,4 +313,10 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+  config.default_scope = :user
+
+  config.sign_out_via = :get
+
+  config.navigational_formats = ['*/*', :html, :json]
 end
+
