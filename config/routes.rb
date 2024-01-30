@@ -18,9 +18,19 @@ Rails.application.routes.draw do
   end
 
   root to: "home#index"
+  get 'about', to: 'about#index'
 
   authenticate :user do
     resources :carts, only: [:show, :add_item]
     resources :users, only: [:create]
+  end
+
+  post '/login',    to: 'sessions#create'
+  post '/logout',   to: 'sessions#destroy'
+  get '/logged_in', to: 'sessions#is_logged_in?'
+  post '/admins', to: 'admins#create'
+
+  resources :admins, only: [:create, :show, :index] do 
+    resources :items, only: [:create, :show, :index, :destroy]
   end
 end

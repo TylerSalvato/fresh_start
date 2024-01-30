@@ -1,11 +1,6 @@
-
 class Api::SessionsController < Devise::SessionsController
-  before_action :authenticate_user!
-
-  skip_before_action :verify_authenticity_token, if: -> { request.format.json? }
-  protect_from_forgery with: :null_session, only: Proc.new { |c| c.request.format.json? }
-
-  respond_to :json
+  protect_from_forgery with: :null_session, if: -> { request.format.json? }
+  skip_before_action :verify_authenticity_token, if: -> { json_request? }
 
   def create
     super do |resource|
