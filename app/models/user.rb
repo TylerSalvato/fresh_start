@@ -1,9 +1,10 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :jwt_authenticatable, jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
+  # Other model code...
 
-  validates :unconfirmed_email, presence: true
+  attr_accessor :unconfirmed_email
+  # Remove the following line:
+  # validates :unconfirmed_email, presence: true
+
   validates :email, uniqueness: true
   validates :password, length: { minimum: 8 }, if: -> { password.present? }
 end

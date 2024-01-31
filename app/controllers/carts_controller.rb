@@ -1,5 +1,5 @@
 class CartsController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :add_item]
+  # before_action :authenticate_user!, only: [:show, :add_item]
 
   before_action :set_cart, except: :index
 
@@ -20,16 +20,16 @@ class CartsController < ApplicationController
 
   private
 
-  def set_cart
-    guest_cart_id = session[:guest_cart_id] || create_guest_cart
-    @cart = Cart.find_by(id: guest_cart_id)
-  end
+  #def set_cart
+    #guest_cart_id = session[:guest_cart_id] || create_guest_cart
+    #@cart = Cart.find_by(id: guest_cart_id)
+  #end
 
-  def create_guest_cart
-    cart = Cart.create
-    session[:guest_cart_id] = cart.id
-    cart.id
-  end
-end
+  #def create_guest_cart
+    #cart = Cart.create
+    #session[:guest_cart_id] = cart.id
+    #cart.id
+  #end
+#end
 
 

@@ -1,48 +1,9 @@
+# app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
-  protect_from_forgery with: :exception
+  
+  # app/controllers/application_controller.rb
 
-  include ActionController::Cookies
-  after_action :set_csrf_cookie
+protect_from_forgery with: :exception
 
-  def fallback_index_html
-    render file: 'public/index.html'
-  end
-
-  private
-
-  def set_csrf_cookie
-    cookies["CSRF-TOKEN"] = {
-      value: form_authenticity_token,
-      secure: true,
-      same_site: :strict
-    }
-  end
-
-  skip_before_action :verify_authenticity_token
-  helper_method :login!, :logged_in?, :current_admin, :authorized_admin?, :logout!, :set_admin
-
-  def login!
-    session[:admin_id] = @admin.id
-  end
-
-  def logged_in?
-    !!session[:admin_id]
-  end
-
-  def current_admin
-    @current_admin ||= Admin.find(session[:admin_id]) if session[:admin_id]
-  end
-
-  def authorized_admin?
-    @admin == current_admin
-  end
-
-  def logout!
-    session.clear
-  end
-
-  def set_admin
-    @admin = Admin.find_by(id: session[:admin_id])
-  end
+  # Your code here
 end

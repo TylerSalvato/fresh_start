@@ -25,14 +25,15 @@ module FreshStart
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::MethodOverride
-    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.use ActionDispatch::Session::CookieStore, key: 'fresh_start'
+    
 
     config.api_only = false
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'http://localhost:3001'
-        resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
+        origins 'http://localhost:3000', 'http://localhost:3001'
+        resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head], credentials: true
       end
         
       allow do
@@ -42,12 +43,19 @@ module FreshStart
       end
     end
 
+    config.autoload_paths << Rails.root.join('app', 'controllers')
+
+
     config.ignore_pattern = %r{/favicon.ico}
-    config.session_store :cookie_store, key: 'fresh_start'
+    config.session_store :cookie_store, key: '_fresh_start_session', expire_after: 30.minutes
 
-  
-
-
+        # Exclude the 'app/models/user.rb' file from Zeitwerk autoload
+        config.autoload_paths -= ["#{config.root}/app/models/user.rb"]
+    
+        # Exclude the 'app/models' directory from Zeitwerk eager loading
+        config.eager_load_paths -= ["#{config.root}/app/models"]
+      
+    
     
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1

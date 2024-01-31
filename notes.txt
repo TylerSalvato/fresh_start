@@ -1,0 +1,46 @@
+  before_action :authenticate_user!
+  protect_from_forgery with: :exception
+
+  include ActionController::Cookies
+  after_action :set_csrf_cookie
+
+  def fallback_index_html
+    render file: 'public/index.html'
+  end
+
+  private
+
+  def set_csrf_cookie
+    cookies["CSRF-TOKEN"] = {
+      value: form_authenticity_token,
+      secure: true,
+      same_site: :strict
+    }
+  end
+
+  skip_before_action :verify_authenticity_token
+  helper_method :login!, :logged_in?, :current_admin, :authorized_admin?, :logout!, :set_admin
+
+  def login!
+    session[:admin_id] = @admin.id
+  end
+
+  def logged_in?
+    !!session[:admin_id]
+  end
+
+  def current_admin
+    @current_admin ||= Admin.find(session[:admin_id]) if session[:admin_id]
+  end
+
+  def authorized_admin?
+    @admin == current_admin
+  end
+
+  def logout!
+    session.clear
+  end
+
+  def set_admin
+    @admin = Admin.find_by(id: session[:admin_id])
+  end

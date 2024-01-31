@@ -9,6 +9,10 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+config.router_name = :users
+config.sign_out_via = :get
+config.navigational_formats = ['*/*', :html, :json]
+
   # config.use_authentication_service = true
   # config.use_password_service = true
   # The secret key used by Devise. Devise uses this key to generate
@@ -181,7 +185,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length.
-  config.password_length = 6..128
+  config.password_length = 8..128
 
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
@@ -314,9 +318,14 @@ Devise.setup do |config|
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
   config.default_scope = :user
+  # config/initializers/devise.rb
+ # config.middleware.insert_before 0, Rack::Cors do
+  #  allow do
+  #    origins 'http://localhost:3000', 'http://localhost:3001'  # Add your frontend origins here
+ #     resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head], credentials: true
+  #  end
+ # end
+  
 
-  config.sign_out_via = :get
-
-  config.navigational_formats = ['*/*', :html, :json]
 end
 

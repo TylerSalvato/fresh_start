@@ -1,7 +1,7 @@
 class CreateAuctions < ActiveRecord::Migration[7.1]
 
   def change
-    create_table :auctions do |t|
+    create_table :auctions, primary_key: :acution_id do |t|
       t.string :title
       t.integer :goal
       t.date :startdate
@@ -10,7 +10,7 @@ class CreateAuctions < ActiveRecord::Migration[7.1]
       t.time :endtime
       t.text :description
       t.string :image
-      t.references :auction, null: false, foreign_key: true
+      #t.references :auction, null: false, foreign_key: true
 
       t.timestamps
     end

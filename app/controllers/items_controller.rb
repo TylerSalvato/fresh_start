@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
+  skip_before_action  :verify_authenticity_token
 
   before_action :set_item, only: [:show, :update, :destroy]
 
@@ -24,7 +25,8 @@ class ItemsController < ApplicationController
     auction = Auction.find_by(id: params[:item][:auction_id])
     
     if auction
-      @item = auction.items.build(item_params)
+      #@item = auction.items.build(item_params)
+      @item = Item.new(item_params)
 
       if @item.save
         render json: @item, status: :created
@@ -61,6 +63,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :description, :price, :bidstep, :category, :image)
+    params.require(:item).permit(:name, :description, :price, :bidstep, :category, :image, :auction_id)
   end
 end

@@ -1,6 +1,18 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+
+  # config/environments/development.rb
+
+Rails.application.configure do
+  # Other configurations...
+
+  # Allow all domains to access the session cookie during development
+  config.session_store :cookie_store, key: '_fresh_start_session', expire_after: 30.minutes, domain: :all
+
+  # Other configurations...
+end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
@@ -82,4 +94,11 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = false
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins 'http://localhost:3000', 'http://localhost:3001'  # Add your frontend origins here
+      resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head], credentials: true
+    end
+  end
+  
 end

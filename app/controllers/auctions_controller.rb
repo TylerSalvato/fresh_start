@@ -1,7 +1,5 @@
-
 class AuctionsController < ApplicationController
-  before_action :authenticate_user!
-
+  skip_before_action  :verify_authenticity_token
   before_action :set_auction, only: [:show, :update, :destroy]
 
   def index
@@ -15,12 +13,14 @@ class AuctionsController < ApplicationController
 
   def create
     @auction = Auction.new(auction_params)
+  
     if @auction.save
       render json: @auction, status: :created
     else
-      render json: @auction.errors, status: :unprocessable_entity
+      render json: { error: 'Failed to create auction. Please try again.' }, status: :unprocessable_entity
     end
   end
+  
 
   def update
     if @auction.update(auction_params)
@@ -41,14 +41,10 @@ class AuctionsController < ApplicationController
     @auction = Auction.find_by(id: params[:id])
     unless @auction
       render json: { error: 'Auction not found' }, status: :not_found
-      return
     end
   end
-  
-  
-  
 
   def auction_params
-    params.require(:auction).permit(:title, :goal, :startdate, :enddate, :starttime, :endtime, :description, :image, :auction_id )
+    params.require(:auction).permit(:title, :goal, :startdate, :enddate, :starttime, :endtime, :description)
   end
 end
