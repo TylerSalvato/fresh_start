@@ -21,6 +21,20 @@ Rails.application.routes.draw do
   root to: "home#index"
   get 'about', to: 'about#index'
 
+  namespace :admin do
+    # Your admin routes go here
+    get 'dashboard', to: 'dashboard#index'
+    # Add more routes as needed
+
+    # If you want a specific URL prefix for your admin section, you can use `scope`
+    scope '/admin' do
+      # More admin routes...
+    end
+  end
+
+  # Other routes...
+end
+
   resources :carts, only: [:show, :add_item]
   resources :items, only: [:create, :show, :index, :destroy]
 end

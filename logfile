@@ -67,3 +67,9 @@
 2024-01-30 22:23:12.949 EST [87657] ERROR:  insert or update on table "auctions" violates foreign key constraint "fk_rails_f34a3cce27"
 2024-01-30 22:23:12.949 EST [87657] DETAIL:  Key (auction_id)=(1) is not present in table "auctions".
 2024-01-30 22:23:12.949 EST [87657] STATEMENT:  INSERT INTO "auctions" ("title", "goal", "startdate", "enddate", "starttime", "endtime", "description", "image", "auction_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"
+2024-02-04 13:29:04.382 EST [25274] ERROR:  update or delete on table "auctions" violates foreign key constraint "fk_rails_6e391c8e85" on table "items"
+2024-02-04 13:29:04.382 EST [25274] DETAIL:  Key (id)=(17) is still referenced from table "items".
+2024-02-04 13:29:04.382 EST [25274] STATEMENT:  DELETE FROM "auctions" WHERE "auctions"."id" = $1
+2024-02-04 13:29:09.503 EST [25274] ERROR:  update or delete on table "auctions" violates foreign key constraint "fk_rails_6e391c8e85" on table "items"
+2024-02-04 13:29:09.503 EST [25274] DETAIL:  Key (id)=(17) is still referenced from table "items".
+2024-02-04 13:29:09.503 EST [25274] STATEMENT:  DELETE FROM "auctions" WHERE "auctions"."id" = $1
